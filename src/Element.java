@@ -1,8 +1,12 @@
 class Element {
+
     private int itemId;
+    int getItemId() {
+        return itemId;
+    }
 
     private int groupId;
-    public int getGroupId() {
+    int getGroupId() {
         return groupId;
     }
 

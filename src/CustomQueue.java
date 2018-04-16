@@ -18,5 +18,24 @@ class CustomQueue {
             queues.put(groupId, new LinkedList<>());
         }
         queues.get(groupId).add(element);
+        currentElementCount++;
+        notifyAll();
+    }
+
+    synchronized Element get() {
+        while(currentElementCount == 0){
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+        int groupId;
+        do{
+            groupId = Main.getRandomInt();
+        } while(!queues.containsKey(groupId) || queues.get(groupId).size() == 0);
+        currentElementCount--;
+        notifyAll();
+        return queues.get(groupId).poll();
     }
 }

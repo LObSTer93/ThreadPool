@@ -1,5 +1,3 @@
-import java.util.Random;
-
 class PushThread extends Thread {
 
     private CustomQueue customQueue;
@@ -7,14 +5,14 @@ class PushThread extends Thread {
     private final int[] currentItemIds = new int[Main.GROUP_COUNT];
 
     PushThread(CustomQueue customQueue) {
+        super("PushThread");
         this.customQueue = customQueue;
     }
 
     @Override
     public void run() {
         while(!Thread.currentThread().isInterrupted()){
-            Random random = new Random();
-            int groupId = random.nextInt(Main.GROUP_COUNT);
+            int groupId = Main.getRandomInt();
             Element element = new Element(currentItemIds[groupId]++, groupId);
             customQueue.add(element);
         }
