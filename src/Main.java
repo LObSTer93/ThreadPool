@@ -3,25 +3,52 @@ import java.util.stream.IntStream;
 
 public class Main {
 
-    final static int GROUP_COUNT = 10;
-    private final static int THREAD_COUNT = 5;
-    final static int QUEUE_ELEMENTS_COUNT = 1000;
+    static int groupCount = 10;
+    private static int threadCount = 5;
+    static int queueElementsCount = 1000;
 
-    final static Random RANDOM = new Random();
+    private final static Random RANDOM = new Random();
     static int getRandomInt(){
-        return RANDOM.nextInt(Main.GROUP_COUNT);
+        return RANDOM.nextInt(Main.groupCount);
     }
 
     public static void main(String[] args) {
+        initParams();
+
         CustomQueue customQueue = new CustomQueue();
 
         Thread pushThread = new PushThread(customQueue);
         pushThread.start();
 
         Processor processor = new Processor();
-        IntStream.range(0, THREAD_COUNT).forEach(i -> {
+        IntStream.range(0, threadCount).forEach(i -> {
             QueueHandlerThread queueHandlerThread = new QueueHandlerThread(customQueue, processor, i);
             queueHandlerThread.start();
         });
+    }
+
+    private static void initParams(){
+        for (String arg : args) {
+            String[] str = arg.split("=");
+            try {
+                switch (str[0]) {
+                    case "groupCount": {
+                        groupCount = Integer.parseInt(str[1]);
+                        break;
+                    }
+                    case "threadCount": {
+                        threadCount = Integer.parseInt(str[1]);
+                        break;
+                    }
+                    case "queueElementsCount": {
+                        queueElementsCount = Integer.parseInt(str[1]);
+                        break;
+                    }
+                }
+            }catch (NumberFormatException e){
+                System.out.println("Incorrect value for param: " + str[0]);
+                return;
+            }
+        }
     }
 }

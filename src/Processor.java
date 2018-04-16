@@ -1,6 +1,6 @@
 class Processor {
 
-    private final int[] nextItemIds = new int[Main.GROUP_COUNT];
+    private final int[] nextItemIds = new int[Main.groupCount];
 
     synchronized void processing(Element element) {
         while(nextItemIds[element.getGroupId()] != element.getItemId()){

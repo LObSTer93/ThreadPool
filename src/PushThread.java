@@ -2,7 +2,7 @@ class PushThread extends Thread {
 
     private CustomQueue customQueue;
 
-    private final int[] currentItemIds = new int[Main.GROUP_COUNT];
+    private final int[] currentItemIds = new int[Main.groupCount];
 
     PushThread(CustomQueue customQueue) {
         super("PushThread");

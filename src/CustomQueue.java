@@ -2,11 +2,11 @@ import java.util.*;
 
 class CustomQueue {
 
-    private Map<Integer, Queue<Element>> queues = new HashMap<>(Main.GROUP_COUNT);
+    private Map<Integer, Queue<Element>> queues = new HashMap<>(Main.groupCount);
     private int currentElementCount = 0;
 
     synchronized void add(Element element) {
-        while(currentElementCount == Main.QUEUE_ELEMENTS_COUNT){
+        while(currentElementCount == Main.queueElementsCount){
             try {
                 wait();
             } catch (InterruptedException e) {
