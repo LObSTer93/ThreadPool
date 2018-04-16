@@ -11,9 +11,10 @@ public class QueueHandlerThread extends Thread{
 
     @Override
     public void run() {
-        while(!Thread.currentThread().isInterrupted()){
+        while(!(Thread.currentThread().isInterrupted() || Main.isInterrupted)){
             Element element = customQueue.get();
             processor.processing(element);
         }
+        Main.isInterrupted = true;
     }
 }

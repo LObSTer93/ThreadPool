@@ -7,13 +7,15 @@ public class Main {
     private static int threadCount = 5;
     static int queueElementsCount = 1000;
 
+    static boolean isInterrupted = false;
+
     private final static Random RANDOM = new Random();
     static int getRandomInt(){
         return RANDOM.nextInt(Main.groupCount);
     }
 
     public static void main(String[] args) {
-        initParams();
+        initParams(args);
 
         CustomQueue customQueue = new CustomQueue();
 
@@ -27,7 +29,7 @@ public class Main {
         });
     }
 
-    private static void initParams(){
+    private static void initParams(String[] args){
         for (String arg : args) {
             String[] str = arg.split("=");
             try {

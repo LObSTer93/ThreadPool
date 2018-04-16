@@ -1,5 +1,9 @@
 import java.util.*;
 
+/**
+ * Очередь элементов на обработку.
+ * Реализуется в виде отдельной очереди для каждой группы элементов для быстроты получения элементов из разных очередей
+ */
 class CustomQueue {
 
     private Map<Integer, Queue<Element>> queues = new HashMap<>(Main.groupCount);

@@ -11,10 +11,11 @@ class PushThread extends Thread {
 
     @Override
     public void run() {
-        while(!Thread.currentThread().isInterrupted()){
+        while(!(Thread.currentThread().isInterrupted() || Main.isInterrupted)){
             int groupId = Main.getRandomInt();
             Element element = new Element(currentItemIds[groupId]++, groupId);
             customQueue.add(element);
         }
+        Main.isInterrupted = true;
     }
 }
