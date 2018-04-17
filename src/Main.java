@@ -7,7 +7,16 @@ public class Main {
     private static int threadCount = 5;
     static int queueElementsCount = 1000;
 
-    static boolean isInterrupted = false;
+    private static Thread pushThread;
+    private static Thread[] queueHandlerThreads = new Thread[threadCount];
+
+    static void interruptAllThreads(){
+        pushThread.interrupt();
+        IntStream.range(0, threadCount).forEach(i -> {
+            queueHandlerThreads[i].interrupt();
+        });
+    }
+
 
     private final static Random RANDOM = new Random();
     static int getRandomInt(){
@@ -19,12 +28,13 @@ public class Main {
 
         CustomQueue customQueue = new CustomQueue();
 
-        Thread pushThread = new PushThread(customQueue);
+        pushThread = new PushThread(customQueue);
         pushThread.start();
 
         Processor processor = new Processor();
         IntStream.range(0, threadCount).forEach(i -> {
             QueueHandlerThread queueHandlerThread = new QueueHandlerThread(customQueue, processor, i);
+            queueHandlerThreads[i] = queueHandlerThread;
             queueHandlerThread.start();
         });
     }
@@ -49,7 +59,7 @@ public class Main {
                 }
             }catch (NumberFormatException e){
                 System.out.println("Incorrect value for param: " + str[0]);
-                return;
+                throw e;
             }
         }
     }
