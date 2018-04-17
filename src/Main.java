@@ -10,14 +10,6 @@ public class Main {
     private static Thread pushThread;
     private static Thread[] queueHandlerThreads = new Thread[threadCount];
 
-    static void interruptAllThreads(){
-        pushThread.interrupt();
-        IntStream.range(0, threadCount).forEach(i -> {
-            queueHandlerThreads[i].interrupt();
-        });
-    }
-
-
     private final static Random RANDOM = new Random();
     static int getRandomInt(){
         return RANDOM.nextInt(Main.groupCount);
@@ -62,5 +54,12 @@ public class Main {
                 throw e;
             }
         }
+    }
+
+    static void interruptAllThreads(){
+        pushThread.interrupt();
+        IntStream.range(0, threadCount).forEach(i -> {
+            queueHandlerThreads[i].interrupt();
+        });
     }
 }
